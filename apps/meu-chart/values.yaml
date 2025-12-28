@@ -1,6 +1,6 @@
 apiPython:
   image: "paulohluvisoto/meuteste:latest"
-  replicaCount: 2
+  replicaCount: 3
   redisHost: "meu-app-redis"
   redisPort: 6379
 
