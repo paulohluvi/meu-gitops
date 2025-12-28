@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "meu-chart.redisName" . }}
+spec:
+  replicas: {{ .Values.redis.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "meu-chart.redisName" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "meu-chart.redisName" . }}
+        ambiente: desenvolvimento
+      annotations:
+        uso: "Banco de dados usado pra guardar informacoes"
+    spec:
+      containers:
+      - name: redis
+        image: {{ .Values.redis.image }}
+        ports:
+          - containerPort: {{ .Values.redis.port }}

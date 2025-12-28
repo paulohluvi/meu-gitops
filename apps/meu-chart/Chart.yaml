@@ -1,0 +1,5 @@
+apiVersion: v2
+name: meu-chart
+version: 0.1.0 # versão do chart
+description: Chart contendo API Python + Redis
+appVersion: "1.0.0" # versão da sua aplicação

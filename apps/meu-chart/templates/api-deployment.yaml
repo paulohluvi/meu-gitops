@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "meu-chart.apiName" . }}
+spec:
+  replicas: {{ .Values.apiPython.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "meu-chart.apiName" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "meu-chart.apiName" . }}
+    spec:
+      initContainers:
+        - name: wait-for-redis
+          image: busybox
+          command:
+            - sh
+            - -c
+            - >
+              until nc -z {{ .Values.apiPython.redisHost }} {{ .Values.apiPython.redisPort }};
+              do echo "Aguardando Redis...";
+              sleep 2;
+              done;
+      containers:
+        - name: api-python
+          image: {{ .Values.apiPython.image }}
+          imagePullPolicy: IfNotPresent        # importante para imagem local
+          env:
+            - name: REDIS_HOST
+              value: "{{ .Values.apiPython.redisHost }}"
+            - name: REDIS_PORT
+              value: "{{ .Values.apiPython.redisPort }}"
+          ports:
+            - containerPort: 5000

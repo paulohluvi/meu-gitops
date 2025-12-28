@@ -1,0 +1,15 @@
+apiPython:
+  image: "paulohluvisoto/meuteste:latest"
+  replicaCount: 2
+  redisHost: "meu-app-redis"
+  redisPort: 6379
+
+redis:
+  image: "redis:7"
+  replicaCount: 1
+  port: 6379
+
+service:
+  port: 5000
+  targetPort: 5000
+  nodePort: 30917
